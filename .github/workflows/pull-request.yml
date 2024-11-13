@@ -16,6 +16,9 @@ jobs:
     steps:
     - run: echo "PR is targeting main or has the force-ci label"
   
-  dispatch:
+  required_job:
+    name: Required Job
     needs: [should_fully_validate]
-    uses: ./.github/workflows/pull-request-dispatcher.yml
+    runs-on: ubuntu-latest
+    steps:
+        - run: echo "This is a required job"
