@@ -1,0 +1,21 @@
+name: Pull Request
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Only runs if the force-ci label is on.
+  should_fully_validate:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'labeled' && github.event.label.name == 'force-ci'
+    steps:
+    - run: echo "PR is targeting main or has the force-ci label"
+  
+  dispatch:
+    needs: [should_fully_validate]
+    uses: ./.github/workflows/pull-request-dispatcher.yml

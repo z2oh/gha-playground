@@ -1,0 +1,11 @@
+name: Pull Request - Dispatcher
+
+on:
+    workflow_call:
+
+jobs:
+    required_job:
+        name: Required Job
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "This is a required job"
