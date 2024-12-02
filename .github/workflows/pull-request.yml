@@ -15,7 +15,15 @@ jobs:
     if: github.event.action == 'labeled' && github.event.label.name == 'force-ci'
     steps:
     - run: echo "PR is targeting main or has the force-ci label"
-  
-  dispatch:
+
+  validated:
     needs: [should_fully_validate]
-    uses: ./.github/workflows/pull-request-dispatcher.yml
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+      gh api \
+        --method PATCH \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        /repos/z2oh/gha-playground/check-runs/${{ github.run_id }} \
+       -f "name=validated" -f "status=completed" -f "conclusion=success"
