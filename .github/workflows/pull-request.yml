@@ -19,6 +19,8 @@ jobs:
   validated:
     needs: [should_fully_validate]
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
     - run: |
         gh api \
