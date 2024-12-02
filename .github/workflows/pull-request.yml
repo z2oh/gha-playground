@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if:
       (github.event.action == 'labeled' && github.event.label.name == 'force-ci') ||
-      (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronized') ||
+      (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize') ||
       contains(github.event.pull_request.labels.*.name, 'force-ci')
     steps:
     - run: echo "PR is targeting main or has the force-ci label"
