@@ -26,4 +26,4 @@ jobs:
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/z2oh/gha-playground/check-runs/${{ github.run_id }} \
-        -f "name=validated" -f "status=completed" -f "conclusion=success"
+        -f "name=fully_validated" -f "status=completed" -f "conclusion=success"
