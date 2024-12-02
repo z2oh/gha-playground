@@ -22,10 +22,18 @@ jobs:
   validated:
     needs: [should_fully_validate]
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.CHECKS_TOKEN }}
     steps:
-    - run: |
+    - name: Generate a token
+      id: generate-token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: 1075839
+        private-key: ${{ secrets.APP_PRIVATE_KEY }}
+  
+    - name: Set status
+      env:
+        GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+      run: |
         gh api \
           --method PATCH \
           -H "Accept: application/vnd.github+json" \
