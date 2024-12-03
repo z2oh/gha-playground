@@ -1,0 +1,12 @@
+name: Mark PR as validated
+
+on:
+  workflow_call:
+
+jobs:
+  validated:
+    name: Mark PR as validated
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR is validated
+        run: echo "PR is validated!"
