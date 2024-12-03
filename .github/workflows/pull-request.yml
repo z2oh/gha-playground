@@ -1,4 +1,4 @@
-name: Pull Request
+name: PR
 
 on:
   pull_request:
@@ -19,6 +19,6 @@ jobs:
     steps:
     - run: echo "PR is targeting main or has the force-ci label"
 
-  mark_validated:
+  validated:
     needs: [should_fully_validate]
     uses: ./.github/workflows/mark-validated.yml
