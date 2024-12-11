@@ -1,0 +1,15 @@
+name: Pull Request Target
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  cat:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.2.1
+    - run: |
+        echo "pull_request event"
+        echo "$(git log -1)"
+        cat ${{ github.workspace }}/README.md

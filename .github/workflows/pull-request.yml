@@ -2,41 +2,14 @@ name: Pull Request
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
-  cancel-in-progress: true
+    types: [opened, reopened, synchronize]
 
 jobs:
-  # Only runs if the force-ci label is on.
-  should_fully_validate:
-    runs-on: ubuntu-latest
-    if:
-      (github.event.action == 'labeled' && github.event.label.name == 'force-ci') ||
-      (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronized') ||
-      contains(github.event.pull_request.labels.*.name, 'force-ci')
-    steps:
-    - run: echo "PR is targeting main or has the force-ci label"
-
-  validated:
-    needs: [should_fully_validate]
+  cat:
     runs-on: ubuntu-latest
     steps:
-    - name: Generate a token
-      id: generate-token
-      uses: actions/create-github-app-token@v1
-      with:
-        app-id: 1075839
-        private-key: ${{ secrets.APP_PRIVATE_KEY }}
-  
-    - name: Set status
-      env:
-        GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-      run: |
-        gh api \
-          --method POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          /repos/z2oh/gha-playground/check-runs \
-        -f "name=fully_validated" -f "head_sha=${{ github.sha }}" -f "status=completed" -f "conclusion=success"
+    - uses: actions/checkout@v4.2.1
+    - run: |
+        echo "pull_request event"
+        echo "$(git log -1)"
+        cat ${{ github.workspace }}/README.md
